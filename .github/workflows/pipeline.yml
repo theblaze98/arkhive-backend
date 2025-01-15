@@ -28,7 +28,7 @@ jobs:
           cmd: install --frozen-lockfile
 
       - name: lint
-        run: node run lint
+        run: node --run lint
 
       - name: Build
-        run: node run build
+        run: node --run build
