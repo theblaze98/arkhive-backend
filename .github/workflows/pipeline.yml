@@ -30,5 +30,15 @@ jobs:
       - name: lint
         run: node --run lint
 
+      - name: migrate
+        env:
+          NEON_DATABASE_URL: ${{secrets.NEON_DATABASE_URL}}
+        run: node --run generate:migrate
+
+      - name: Push Migrations
+        env:
+          NEON_DATABASE_URL: ${{secrets.NEON_DATABASE_URL}}
+        run: node --run push
+
       - name: Build
         run: node --run build
