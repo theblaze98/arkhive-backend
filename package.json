@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "generate:migrate": "drizzle-kit generate --config=src/drizzle/drizzle.config.ts",
-    "push": "drizzle-kit push --config=src/drizzle/drizzle.config.ts"
+    "push": "set NODE_ENV=development&& drizzle-kit push --config=src/drizzle/drizzle.config.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
