@@ -8,6 +8,13 @@
       "when": 1736818560385,
       "tag": "0000_wet_leader",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1737594633362,
+      "tag": "0001_careful_vindicator",
+      "breakpoints": true
     }
   ]
 }
