@@ -17,5 +17,6 @@ import * as schema from './schemas'
       },
     },
   ],
+  exports: [DRIZZLE_PROVIDER],
 })
 export class DrizzleModule {}

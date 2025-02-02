@@ -6,6 +6,7 @@ import { UsersService } from '@/users/users.service'
 import { UserRepository } from '@/users/user.repository'
 import { LocalStrategy } from './helpers/local.strategy'
 import { JwtStrategy } from './helpers/jwt.strategy'
+import { AuthController } from './auth.controller'
 
 @Module({
   imports: [DrizzleModule, UsersModule],
@@ -16,5 +17,6 @@ import { JwtStrategy } from './helpers/jwt.strategy'
     LocalStrategy,
     JwtStrategy,
   ],
+  controllers: [AuthController],
 })
 export class AuthModule {}

@@ -11,27 +11,33 @@ export class UserRepository implements IRepository<IUser> {
     @Inject(DRIZZLE_PROVIDER) private db: NeonHttpDatabase<typeof schemas>,
   ) {}
 
-  create(entity: Omit<IUser, 'createdAt'>): Promise<IUser> {
-    return this.db.insert(schemas.userTable).values(entity).returning()[0]
+  async create(entity: Omit<IUser, 'createdAt'>): Promise<IUser> {
+    const user = await this.db
+      .insert(schemas.userTable)
+      .values(entity)
+      .returning()
+    return user[0]
   }
 
-  update(id: string, entity: Partial<IUser>): Promise<IUser> {
-    return this.db.update(schemas.userTable).set(entity).returning()[0]
+  async update(id: string, entity: Partial<IUser>): Promise<IUser> {
+    const user = await this.db.update(schemas.userTable).set(entity).returning()
+    return user[0]
   }
 
-  delete(id: string): Promise<IUser> {
-    return this.db
+  async delete(id: string): Promise<IUser> {
+    const user = await this.db
       .delete(schemas.userTable)
       .where(eq(schemas.userTable.id, id))
-      .returning()[0]
+      .returning()
+    return user[0]
   }
 
-  find(): Promise<IUser[]> {
-    return this.db.select().from(schemas.userTable)
+  async find(): Promise<IUser[]> {
+    return await this.db.select().from(schemas.userTable)
   }
 
-  findOne(params: { id?: string; email?: string }): Promise<IUser> {
-    return this.db.query.userTable.findFirst({
+  async findOne(params: { id?: string; email?: string }): Promise<IUser> {
+    return await this.db.query.userTable.findFirst({
       where: or(
         eq(schemas.userTable.id, params.id),
         eq(schemas.userTable.email, params.email),

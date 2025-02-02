@@ -1,8 +1,13 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common'
 import { UsersService } from '@/users/users.service'
 import { validatePassword } from './helpers/password'
 import { JwtService } from '@nestjs/jwt'
 import { IUser } from '@/users/interfaces'
+import { registerUserDto } from './dto'
 
 @Injectable()
 export class AuthService {
@@ -11,14 +16,24 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
+  async validateUser(email: string, password: string): Promise<IUser | null> {
     const user = await this.usersService.findOne({ email })
 
-    if (!user) return null
-
-    if (!validatePassword(password, user.password)) return null
+    if (!user || !validatePassword(password, user.password)) {
+      return null
+    }
 
     return user
+  }
+
+  async register(data: { id: string } & registerUserDto) {
+    const existingUser = await this.usersService.findOne({ email: data.email })
+    if (existingUser) {
+      throw new BadRequestException('EMAIL_ALREADY_EXISTS')
+    }
+    const { id, name, email, password } = data
+    console.log(data)
+    return await this.usersService.create({ id, name, email, password })
   }
 
   async login(user: IUser) {
@@ -43,8 +58,8 @@ export class AuthService {
         access_token: newAccessToken,
       }
     } catch (e) {
-      console.log(e)
-      throw new UnauthorizedException('INVALID_REFRESH_TOKEN')
+      e.message = 'Invalid refresh token'
+      throw new UnauthorizedException('Invalid refresh token')
     }
   }
 }
