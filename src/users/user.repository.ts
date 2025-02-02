@@ -15,7 +15,7 @@ export class UserRepository implements IRepository<IUser> {
     return this.db.insert(schemas.userTable).values(entity).returning()[0]
   }
 
-  update(entity: Partial<IUser>): Promise<IUser> {
+  update(id: string, entity: Partial<IUser>): Promise<IUser> {
     return this.db.update(schemas.userTable).set(entity).returning()[0]
   }
 
@@ -30,7 +30,7 @@ export class UserRepository implements IRepository<IUser> {
     return this.db.select().from(schemas.userTable)
   }
 
-  findOne(params: { id: string; email: string }): Promise<IUser> {
+  findOne(params: { id?: string; email?: string }): Promise<IUser> {
     return this.db.query.userTable.findFirst({
       where: or(
         eq(schemas.userTable.id, params.id),

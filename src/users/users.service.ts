@@ -10,8 +10,8 @@ export class UsersService implements IUserServices {
     return this.repository.create(entity)
   }
 
-  update(entity: Partial<IUser>): Promise<IUser> {
-    return this.repository.update(entity)
+  update(id: string, entity: Partial<IUser>): Promise<IUser> {
+    return this.repository.update(id, entity)
   }
 
   delete(id: string): Promise<IUser> {
@@ -22,7 +22,7 @@ export class UsersService implements IUserServices {
     return this.repository.find()
   }
 
-  findOne(params: { id: string; email: string }): Promise<IUser> {
+  findOne(params: { id?: string; email?: string }): Promise<IUser> {
     return this.repository.findOne(params)
   }
 }
