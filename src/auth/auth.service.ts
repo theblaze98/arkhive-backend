@@ -59,7 +59,7 @@ export class AuthService {
       }
     } catch (e) {
       e.message = 'Invalid refresh token'
-      throw new UnauthorizedException('Invalid refresh token')
+      throw new UnauthorizedException('INVALID_REFRESH_TOKEN')
     }
   }
 }

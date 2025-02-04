@@ -3,8 +3,10 @@ import {
   Post,
   UseGuards,
   Request,
+  Response,
   Body,
   HttpException,
+  Get,
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { LocalAuthGuard } from './helpers/local.guard'
@@ -13,6 +15,7 @@ import { ZodValidationPipe } from '@/common/pipes/zod-validation.pipe'
 import { registerUserDto, registerUserSchema } from './dto'
 import { v4 as uuid } from 'uuid'
 import { HttpErrorValidation } from '@/helpers/http-error-validation'
+import { Response as TResponse } from 'express'
 
 @Controller('auth')
 export class AuthController {
@@ -36,9 +39,19 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req) {
+  async login(@Request() req, @Response() res: TResponse) {
     try {
-      return await this.authService.login(req.user)
+      const { access_token, refresh_token } = await this.authService.login(
+        req.user,
+      )
+
+      return res
+        .cookie('refresh_token', refresh_token, {
+          httpOnly: true,
+          sameSite: 'strict',
+          maxAge: 1000 * 60 * 60 * 24 * 30,
+        })
+        .json({ access_token })
     } catch (error) {
       const { message, statusCode } = HttpErrorValidation.getError(
         error.message,
@@ -47,20 +60,28 @@ export class AuthController {
     }
   }
 
-  @Post('refresh')
-  async refresh(@Body('refresh_token') refreshToken: string) {
+  @Get('refresh')
+  async refresh(@Request() req) {
     try {
-      return await this.authService.refresh(refreshToken)
+      console.log(req.cookies)
+      const { refresh_token } = req.cookies
+      console.log(refresh_token)
+      const { access_token } = await this.authService.refresh(refresh_token)
+
+      return { access_token }
     } catch (error) {
       const { message, statusCode } = HttpErrorValidation.getError(
         error.message,
       )
+
+      console.log(error)
+
       throw new HttpException(message, statusCode)
     }
   }
 
   @UseGuards(JwtGuard)
-  @Post('protected')
+  @Get('protected')
   getProtected(@Request() req) {
     return req.user
   }
