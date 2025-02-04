@@ -8,7 +8,8 @@ import * as schemas from '@/drizzle/schemas'
 
 export class UserRepository implements IRepository<IUser> {
   constructor(
-    @Inject(DRIZZLE_PROVIDER) private db: NeonHttpDatabase<typeof schemas>,
+    @Inject(DRIZZLE_PROVIDER)
+    private readonly db: NeonHttpDatabase<typeof schemas>,
   ) {}
 
   async create(entity: Omit<IUser, 'createdAt'>): Promise<IUser> {

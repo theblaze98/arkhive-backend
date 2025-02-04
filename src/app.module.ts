@@ -5,6 +5,7 @@ import { CommonModule } from './common/common.module'
 import { AuthModule } from './auth/auth.module'
 import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule } from '@nestjs/config'
+import { WalletModule } from './wallet/wallet.module'
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ConfigModule } from '@nestjs/config'
     UsersModule,
     CommonModule,
     AuthModule,
+    WalletModule,
   ],
 })
 export class AppModule {}

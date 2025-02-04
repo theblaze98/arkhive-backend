@@ -1,4 +1,4 @@
-import { pgTable, varchar, decimal, timestamp } from 'drizzle-orm/pg-core'
+import { pgTable, varchar, numeric, timestamp } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 import { userTable } from './user.schema'
 import { transactionTable } from './transaction.schema'
@@ -13,7 +13,7 @@ export const walletTable = pgTable('wallets', {
     }),
   name: varchar('name', { length: 255 }).notNull(),
   type: varchar('type', { length: 255 }).notNull(),
-  balance: decimal('balance', { precision: 4 }).notNull(),
+  balance: numeric('balance', { precision: 4 }).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
