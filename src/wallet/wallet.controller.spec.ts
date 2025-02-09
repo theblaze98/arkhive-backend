@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { WalletController } from './wallet.controller'
 
 describe('WalletController', () => {
-  let controller: WalletController
+  let controller: 
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

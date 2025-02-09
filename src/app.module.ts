@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module'
 import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule } from '@nestjs/config'
 import { WalletModule } from './wallet/wallet.module'
+import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { WalletModule } from './wallet/wallet.module'
     CommonModule,
     AuthModule,
     WalletModule,
+    TransactionModule,
   ],
 })
 export class AppModule {}

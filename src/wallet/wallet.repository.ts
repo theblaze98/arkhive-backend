@@ -6,7 +6,7 @@ import * as schemas from '@/drizzle/schemas'
 import { IWallet } from './interfaces/wallet.interface'
 import { eq } from 'drizzle-orm'
 
-export class WalletRepositoy implements IRepository<IWallet> {
+export class WalletRepository implements IRepository<IWallet> {
   constructor(
     @Inject(DRIZZLE_PROVIDER)
     private readonly db: NeonHttpDatabase<typeof schemas>,
@@ -17,15 +17,27 @@ export class WalletRepositoy implements IRepository<IWallet> {
       .insert(schemas.walletTable)
       .values({ ...entity, balance: entity.balance.toString() })
       .returning()
-    return wallet[0]
+    return transformWallet(wallet[0])
   }
 
-  async update(id: string, entity: Partial<IWallet>): Promise<IWallet> {
+  async findById(id: string): Promise<IWallet | null> {
+    const wallet = await this.db
+      .select()
+      .from(schemas.walletTable)
+      .where(eq(schemas.walletTable.id, id))
+    return transformWallet(wallet[0])
+  }
+
+  async update(
+    id: string,
+    entity: Partial<Omit<IWallet, 'createdAt'>>,
+  ): Promise<IWallet> {
     const wallet = await this.db
       .update(schemas.walletTable)
       .set({ ...entity, balance: entity.balance?.toString() })
+      .where(eq(schemas.walletTable.id, id))
       .returning()
-    return wallet[0]
+    return transformWallet(wallet[0])
   }
 
   async delete(id: string): Promise<IWallet> {
@@ -33,16 +45,26 @@ export class WalletRepositoy implements IRepository<IWallet> {
       .delete(schemas.walletTable)
       .where(eq(schemas.walletTable.id, id))
       .returning()
-    return wallet[0]
+    return transformWallet(wallet[0])
   }
 
   async find(): Promise<IWallet[]> {
-    return await this.db.select().from(schemas.walletTable).execute()
+    const wallet = await this.db.select().from(schemas.walletTable).execute()
+    return wallet.map(transformWallet)
   }
 
   async findOne(params: { id: string; name: string }): Promise<IWallet> {
-    return this.db.query.walletTable.findFirst({
+    const wallet = this.db.query.walletTable.findFirst({
       where: eq(schemas.walletTable.id, params.id),
     })
+
+    return transformWallet(wallet[0])
+  }
+}
+
+function transformWallet(wallet): IWallet {
+  return {
+    ...wallet,
+    balance: parseFloat(wallet.balance),
   }
 }

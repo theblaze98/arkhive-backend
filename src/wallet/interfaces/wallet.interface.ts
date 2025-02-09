@@ -8,6 +8,6 @@ export interface IWallet {
   userId: string
   name: string
   type: string
-  balance: string
+  balance: number
   createdAt: Date
 }

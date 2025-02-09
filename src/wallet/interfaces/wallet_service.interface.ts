@@ -6,4 +6,5 @@ export interface IWalletService {
   delete(id: string): Promise<IWallet>
   find(): Promise<IWallet[]>
   findOne(params: { id: string; name: string }): Promise<IWallet>
+  updateBalance(id: string, balance: string): Promise<IWallet>
 }

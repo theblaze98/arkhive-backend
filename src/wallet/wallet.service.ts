@@ -26,4 +26,8 @@ export class WalletService implements IWalletService {
   findOne(params: { id: string; name: string }): Promise<IWallet> {
     return this.repository.findOne(params)
   }
+
+  updateBalance(id: string, balance: string): Promise<IWallet> {
+    return this.repository.update(id, { balance })
+  }
 }
