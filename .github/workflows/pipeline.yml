@@ -34,11 +34,8 @@ jobs:
         run: node --run build
 
       - name: Deploy to production
-        env:
-          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-          service-id: $RENDER_API_KEY
-          api-key: $RENDER_SERVICE_ID
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
 

@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common'
 import { WalletService } from './wallet.service'
 import { WalletController } from './wallet.controller'
-import { WalletRepositoy } from './wallet.repository'
+import { WalletRepository } from './wallet.repository'
 import { DrizzleModule } from '@/drizzle/drizzle.module'
 
 @Module({
   imports: [DrizzleModule],
-  providers: [WalletService, WalletRepositoy],
+  providers: [WalletService, WalletRepository],
   controllers: [WalletController],
 })
 export class WalletModule {}
