@@ -48,8 +48,10 @@ export class WalletRepository implements IRepository<IWallet> {
     return transformWallet(wallet[0])
   }
 
-  async find(): Promise<IWallet[]> {
-    const wallet = await this.db.select().from(schemas.walletTable).execute()
+  async find({ userId }: { userId: string }): Promise<IWallet[]> {
+    const wallet = await this.db.query.walletTable.findMany({
+      where: eq(schemas.walletTable.userId, userId),
+    })
     return wallet.map(transformWallet)
   }
 
