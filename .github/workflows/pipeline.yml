@@ -35,11 +35,10 @@ jobs:
 
       - name: Deploy to production
         env:
-          RENDER_SERVICE_ID: ${{ secrets.MY_RENDER_SERVICE_ID }}
-          RENDER_API_KEY: ${{ secrets.MY_RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
           service-id: $RENDER_API_KEY
           api-key: $RENDER_SERVICE_ID
-          wait-for-success: true
 
