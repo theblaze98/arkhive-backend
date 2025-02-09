@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { IWalletService } from './interfaces/wallet_service.interface'
-import { WalletRepositoy } from './wallet.repository'
+import { WalletRepository } from './wallet.repository'
 import { IWallet } from './interfaces/wallet.interface'
 
 @Injectable()
 export class WalletService implements IWalletService {
-  constructor(private readonly repository: WalletRepositoy) {}
+  constructor(private readonly repository: WalletRepository) {}
 
   create(entity: Omit<IWallet, 'createdAt'>): Promise<IWallet> {
     return this.repository.create(entity)
