@@ -25,10 +25,13 @@ export class TransactionRepository implements IRepository<ITransaction> {
     return transformTransaction(transaction)
   }
 
-  async create(transaction: ITransaction): Promise<ITransaction> {
+  async create(
+    transaction: Omit<ITransaction, 'createdAt'>,
+  ): Promise<ITransaction> {
     const createdTransaction = await this.db
       .insert(schemas.transactionTable)
       .values({ ...transaction, amount: transaction.amount.toString() })
+      .returning()
     return transformTransaction(createdTransaction)
   }
 

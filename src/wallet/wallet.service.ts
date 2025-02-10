@@ -19,15 +19,15 @@ export class WalletService implements IWalletService {
     return this.repository.delete(id)
   }
 
-  find(): Promise<IWallet[]> {
-    return this.repository.find()
+  find({ userId }: { userId: string }): Promise<IWallet[]> {
+    return this.repository.find({ userId })
   }
 
-  findOne(params: { id: string; name: string }): Promise<IWallet> {
+  findOne(params: { id?: string; name?: string }): Promise<IWallet | null> {
     return this.repository.findOne(params)
   }
 
-  updateBalance(id: string, balance: string): Promise<IWallet> {
+  updateBalance(id: string, balance: number): Promise<IWallet> {
     return this.repository.update(id, { balance })
   }
 }

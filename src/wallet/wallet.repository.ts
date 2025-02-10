@@ -20,14 +20,6 @@ export class WalletRepository implements IRepository<IWallet> {
     return transformWallet(wallet[0])
   }
 
-  async findById(id: string): Promise<IWallet | null> {
-    const wallet = await this.db
-      .select()
-      .from(schemas.walletTable)
-      .where(eq(schemas.walletTable.id, id))
-    return transformWallet(wallet[0])
-  }
-
   async update(
     id: string,
     entity: Partial<Omit<IWallet, 'createdAt'>>,
@@ -55,7 +47,7 @@ export class WalletRepository implements IRepository<IWallet> {
     return wallet.map(transformWallet)
   }
 
-  async findOne(params: { id: string; name: string }): Promise<IWallet> {
+  async findOne(params: { id?: string; name?: string }): Promise<IWallet> {
     const wallet = this.db.query.walletTable.findFirst({
       where: eq(schemas.walletTable.id, params.id),
     })

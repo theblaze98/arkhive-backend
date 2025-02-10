@@ -12,7 +12,7 @@ export const transactionTable = pgTable('transactions', {
     }),
   type: varchar('type', { length: 255 }).notNull(),
   amount: decimal('amount', { precision: 2 }).notNull(),
-  decription: text('decription').notNull(),
+  description: text('decription').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 

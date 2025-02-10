@@ -8,6 +8,6 @@ export interface ITransaction {
   walletId: string
   type: TransactionType
   amount: number
-  decription: string
+  description: string
   createdAt: Date
 }

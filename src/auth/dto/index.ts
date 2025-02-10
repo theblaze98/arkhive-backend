@@ -11,5 +11,5 @@ export const loginUserSchema = z.object({
   password: z.string().min(6),
 })
 
-export type registerUserDto = z.infer<typeof registerUserSchema>
-export type loginUserDtop = z.infer<typeof loginUserSchema>
+export type registerUserDto = Required<z.infer<typeof registerUserSchema>>
+export type loginUserDtop = Required<z.infer<typeof loginUserSchema>>
