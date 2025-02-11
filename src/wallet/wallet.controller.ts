@@ -4,6 +4,7 @@ import {
   Get,
   HttpException,
   Param,
+  Patch,
   Post,
   Request,
   UseGuards,
@@ -19,9 +20,12 @@ import { JwtGuard } from '@/auth/helpers/jwt.guard'
 export class WalletController {
   constructor(private readonly walletService: WalletService) {}
 
+  @UseGuards(JwtGuard)
   @Get()
-  async find() {
-    return await this.walletService.find()
+  async find(@Request() req) {
+    const userId = req.userId as string
+
+    return await this.walletService.find({ userId })
   }
 
   @UseGuards(JwtGuard)
@@ -42,9 +46,8 @@ export class WalletController {
     }
   }
 
-  @UseGuards(JwtGuard)
-  @Post('/deposit/:id')
-  async deposit(@Param('id') id: string, @Body() body: { amount: number }) {
-    return await this.walletService.updateBalance(id, body.amount.toString())
+  @Patch('/update/:id')
+  update(@Param('id') id: string, @Body() body: Partial<CreateWalletDto>) {
+    return this.walletService.update(id, body)
   }
 }
