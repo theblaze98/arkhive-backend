@@ -23,7 +23,7 @@ export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
   @UseGuards(JwtGuard)
-  @Post()
+  @Post('/create')
   async create(
     @Body(new ZodValidationPipe(createTransactionSchema))
     transaction: CreateTransactionDto,
@@ -38,7 +38,7 @@ export class TransactionController {
   }
 
   @UseGuards(JwtGuard)
-  @Delete(':id')
+  @Delete('/delete/:id')
   async delete(@Param('id') id: string): Promise<ITransaction> {
     try {
       return await this.transactionService.delete(id)
@@ -49,7 +49,7 @@ export class TransactionController {
   }
 
   @UseGuards(JwtGuard)
-  @Patch(':id')
+  @Patch('/update/:id')
   async update(
     @Param('id') id: string,
     @Body(new ZodValidationPipe(createTransactionSchema))
