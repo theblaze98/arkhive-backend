@@ -8,5 +8,6 @@ import { DrizzleModule } from '@/drizzle/drizzle.module'
   imports: [DrizzleModule],
   providers: [WalletService, WalletRepository],
   controllers: [WalletController],
+  exports: [WalletService, WalletRepository],
 })
 export class WalletModule {}

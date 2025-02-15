@@ -3,9 +3,10 @@ import { TransactionService } from './transaction.service'
 import { TransactionController } from './transaction.controller'
 import { DrizzleModule } from '@/drizzle/drizzle.module'
 import { TransactionRepository } from './transaction.repository'
+import { WalletModule } from '@/wallet/wallet.module'
 
 @Module({
-  imports: [DrizzleModule],
+  imports: [DrizzleModule, WalletModule],
   providers: [TransactionService, TransactionRepository],
   controllers: [TransactionController],
 })
